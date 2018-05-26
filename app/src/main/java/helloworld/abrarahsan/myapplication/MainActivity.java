@@ -22,4 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
         startActivity(intent);
     }
+
+    public void historyPressed(View view) {
+        Intent intent = new Intent(getApplicationContext(), History.class);
+        startActivity(intent);
+    }
 }
