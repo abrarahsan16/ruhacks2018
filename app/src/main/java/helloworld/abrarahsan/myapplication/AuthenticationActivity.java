@@ -440,7 +440,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                                 e.getMessage(), Toast.LENGTH_SHORT).show();
                                         e.printStackTrace();
 
-                                        mPasswordView.setError(getString(R.string.error_login_unsuccessful));
+                                        mPasswordView.setError(getString(R.string.error_sign_in_unsuccessful));
                                         mPasswordView.requestFocus();
                                     }
                                 }
@@ -482,7 +482,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                         e.getMessage(), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
 
-                                mPasswordView.setError(getString(R.string.error_login_unsuccessful));
+                                mPasswordView.setError(getString(R.string.error_sign_up_unsuccessful));
                                 mPasswordView.requestFocus();
                             }
                         }

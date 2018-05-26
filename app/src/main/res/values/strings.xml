@@ -15,7 +15,8 @@
     <string name="error_passwords_not_matching">Password must match with the previously typed
         password!</string>
     <string name="error_field_required">This field is required</string>
-    <string name="error_login_unsuccessful">Login unsuccessful</string>
+    <string name="error_sign_in_unsuccessful">Sign-in unsuccessful</string>
+    <string name="error_sign_up_unsuccessful">Sign-up unsuccessful</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
