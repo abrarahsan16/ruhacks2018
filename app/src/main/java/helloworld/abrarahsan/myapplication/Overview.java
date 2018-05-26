@@ -3,11 +3,11 @@ package helloworld.abrarahsan.myapplication;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class planning extends AppCompatActivity {
+public class Overview extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_planning);
+        setContentView(R.layout.activity_overview);
     }
 }
