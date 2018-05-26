@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,9 +29,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +84,12 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     // Keeping track of sign-in or sign-up state
     protected enum Status {SIGNIN, SIGNUP}
     Status status;
+    private boolean loggedIn;
 
+    /**
+     * Start-up configuration.
+     * @param savedInstanceState Application state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +159,9 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    /**
+     * Populate auto-complete.
+     */
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -153,6 +170,10 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         getLoaderManager().initLoader(0, null, this);
     }
 
+    /**
+     * Check permission to read contacts.
+     * @return Result of whether permission was granted.
+     */
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -188,21 +209,22 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         }
     }
 
-    /**
-     * Change between modes to signup and sign in while staying on the same screen
-     */
     public void change() {
         if (status == SIGNIN) {
             status = SIGNUP;
+            setTitle("Sign Up");
             mNameView.setVisibility(View.VISIBLE);
             mNameView.requestFocus();
             mRepeatPasswordView.setVisibility(View.VISIBLE);
+            mAuthenticationButton.setText(R.string.action_sign_up);
             mChangeButton.setText(getResources().getString(R.string.prompt_sign_in));
         } else {
             status = SIGNIN;
+            setTitle("Sign In");
             mNameView.setVisibility(View.GONE);
             mEmailView.requestFocus();
             mRepeatPasswordView.setVisibility(View.GONE);
+            mAuthenticationButton.setText(R.string.action_sign_in);
             mChangeButton.setText(getResources().getString(R.string.prompt_sign_up));
         }
     }
@@ -246,6 +268,14 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             cancel = true;
         }
 
+        // Check for matching passwords in sign-up
+        if (status == SIGNUP && !mPasswordView.getText().toString()
+                        .equals(mRepeatPasswordView.getText().toString())) {
+            mRepeatPasswordView.setError(getString(R.string.error_passwords_not_matching));
+            focusView = mRepeatPasswordView;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -255,7 +285,14 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             // perform the user login attempt.
             showProgress(true);
             mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+
+            try {
+                mAuthTask.execute((Void) null);
+            } catch (Exception e) {
+                Toast.makeText(AuthenticationActivity.this,
+                        e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -378,6 +415,72 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         int IS_PRIMARY = 1;
     }
 
+    public boolean signIn(String email, String password) {
+        loggedIn = false;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("username", mEmailView.getText().toString());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseUser.logInInBackground(mEmailView.getText().toString(),
+                            mPasswordView.getText().toString(), new LogInCallback() {
+                                @Override
+                                public void done(ParseUser user, ParseException e) {
+                                    if (e == null && user != null) {
+                                        Log.i("Login", "Successful!");
+                                        loggedIn = true;
+                                    } else {
+                                        Toast.makeText(AuthenticationActivity.this,
+                                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                } else {
+                    Toast.makeText(AuthenticationActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+        return loggedIn;
+    }
+
+    public boolean signUp(String email, String password) {
+        loggedIn = false;
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("username", mEmailView.getText().toString());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseUser user = new ParseUser();
+                    user.setUsername(mEmailView.getText().toString());
+                    user.setPassword(mPasswordView.getText().toString());
+                    user.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.i("Signup", "Successful!");
+                                loggedIn = true;
+                            } else {
+                                Toast.makeText(AuthenticationActivity.this,
+                                        e.getMessage(), Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(AuthenticationActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+        return loggedIn;
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
@@ -394,36 +497,25 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+            Log.i("Credentials", mEmail + ", " + mPassword);
+            ParseUser.logOut();
+            if (status == SIGNIN) {
+                return signIn(mEmail, mPassword);
+            } else {
+                return signUp(mEmail, mPassword);
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             mAuthTask = null;
             showProgress(false);
+            Log.i("Logged in", Boolean.toString(success));
 
-            if (success) {
+            if (success || loggedIn) {
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
+                mPasswordView.setError(getString(R.string.error_login_unsuccessful));
                 mPasswordView.requestFocus();
             }
         }
