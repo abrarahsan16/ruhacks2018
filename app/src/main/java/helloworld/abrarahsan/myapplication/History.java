@@ -18,7 +18,7 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 
 
-public class History extends Activity {
+public class History extends Activity{
     BarChart barchart;
     public static boolean isRecursionEnable = false;
 
@@ -27,6 +27,7 @@ public class History extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
         //runInBackground();
+
         barchart = (BarChart) findViewById(R.id.barchart);
 
         barchart.setDrawBarShadow(false);
@@ -45,6 +46,11 @@ public class History extends Activity {
         barEntries2.add(new BarEntry(2, 1000));
         barEntries2.add(new BarEntry(3, 1000));
 
+        /*ArrayList<String>labels = new ArrayList<String>();
+        labels.add("Mar");
+        labels.add("Feb");
+        labels.add("Jan");*/
+
         BarDataSet barDataSet = new BarDataSet(barEntries, "Actual Spending");
         BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Projected Spending");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -56,11 +62,11 @@ public class History extends Activity {
         barchart.setData(data);
         barchart.groupBars(1, 0.1f, 0.02f);
         //barchart.invalidate();
-        String[] months = new String[]{"Jan", "Feb", "Mar"};
-       // String[] months =
         XAxis xAxis = barchart.getXAxis();
-       // xAxis.setValueFormatter(new myXAxisValueFormatter(months));
+       // String[] months =
 
+
+        //xAxis.setValueFormatter(new myXAxisValueFormatter(months));
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
