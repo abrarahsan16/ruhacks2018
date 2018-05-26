@@ -33,6 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
+import static helloworld.abrarahsan.myapplication.AuthenticationActivity.Status.SIGNIN;
+import static helloworld.abrarahsan.myapplication.AuthenticationActivity.Status.SIGNUP;
 
 /**
  * A login screen that offers login via email/password.
@@ -57,16 +59,30 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     private UserLoginTask mAuthTask = null;
 
     // UI references.
+    private AutoCompleteTextView mNameView;
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
+    private EditText mRepeatPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    private Button mAuthenticationButton;
+    private Button mChangeButton;
+
+    protected enum Status {SIGNIN, SIGNUP}
+    Status status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+
+        status = SIGNIN;
+
         // Set up the login form.
+        mNameView = (AutoCompleteTextView) findViewById(R.id.name);
+        mNameView.setVisibility(View.GONE);
+        populateAutoComplete();
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
 
@@ -82,11 +98,25 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-        mEmailSignInButton.setOnClickListener(new OnClickListener() {
+        mRepeatPasswordView = (EditText) findViewById(R.id.repeat);
+        mRepeatPasswordView.setVisibility(View.GONE);
+
+        mAuthenticationButton = (Button) findViewById(R.id.authentication_button);
+        mAuthenticationButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 attemptLogin();
+            }
+        });
+
+        mChangeButton = (Button) findViewById(R.id.change_button);
+        mChangeButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                change();
+                if (status == SIGNIN) {
+
+                }
             }
         });
 
@@ -137,6 +167,24 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         }
     }
 
+    /**
+     * Change between modes to signup and sign in while staying on the same screen
+     */
+    public void change() {
+        if (status == SIGNIN) {
+            status = SIGNUP;
+            mNameView.setVisibility(View.VISIBLE);
+            mNameView.requestFocus();
+            mRepeatPasswordView.setVisibility(View.VISIBLE);
+            mChangeButton.setText(getResources().getString(R.string.prompt_sign_in));
+        } else {
+            status = SIGNIN;
+            mNameView.setVisibility(View.GONE);
+            mEmailView.requestFocus();
+            mRepeatPasswordView.setVisibility(View.GONE);
+            mChangeButton.setText(getResources().getString(R.string.prompt_sign_up));
+        }
+    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
