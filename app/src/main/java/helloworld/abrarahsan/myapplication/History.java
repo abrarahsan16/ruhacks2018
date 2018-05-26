@@ -66,7 +66,7 @@ public class History extends AppCompatActivity {
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
         xAxis.setAxisMinimum(1);
-        xAxis.setAxisMaximum(12);
+        //xAxis.setAxisMaximum(12);
         /*String content = "<html>"
                 + "            <head>"
                 + "               <script type = \"text/javascript\" src=\"https://www.gstatic.com/charts/loader.js\"></script>"
