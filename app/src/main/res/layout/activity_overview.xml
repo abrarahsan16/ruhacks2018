@@ -7,66 +7,55 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/Total"
+        style="@android:style/Widget.AutoCompleteTextView"
         android:layout_width="wrap_content"
         android:layout_height="51dp"
         android:layout_marginStart="45dp"
         android:layout_marginTop="220dp"
         android:ems="10"
+        android:hint="Total Spending"
         android:inputType="number"
+        android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:hint="Total Spending:" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/Planned"
+        style="@android:style/Widget.AutoCompleteTextView"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:layout_marginBottom="280dp"
         android:layout_marginStart="45dp"
         android:ems="10"
-        android:inputType="textPersonName"
+        android:hint="Planned Spending"
+        android:inputType="number"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="212dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="200dp"
-        android:contentDescription="@string/prompt_name"
-        android:text="Total Spending:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="208dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="55dp"
-        android:text="Planned spending:"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
-        app:layout_constraintStart_toStartOf="parent" />
+        tools:hint="Planned Spending:" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/Totalbutton"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="30dp"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="220dp"
         android:text="View"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/Planbutton"
         style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
+        android:layout_marginBottom="280dp"
         android:layout_marginEnd="30dp"
         android:text="View"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
