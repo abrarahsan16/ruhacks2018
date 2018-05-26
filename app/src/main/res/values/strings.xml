@@ -18,4 +18,8 @@
     </string>
     <string name="prompt_sign_in">"Already have an account? Click here to sign in."</string>
     <string name="prompt_sign_up">"Don't have an account? Click here to sign up."</string>
+    <!--Strings related to Overview-->
+    <string name="projected_Spending">Projected</string>
+    <string name="actual_spending">Actual</string>
+
 </resources>

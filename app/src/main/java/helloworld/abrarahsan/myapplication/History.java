@@ -44,8 +44,8 @@ public class History extends Activity {
         barEntries2.add(new BarEntry(2, 1000));
         barEntries2.add(new BarEntry(3, 1000));
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Income");
-        BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Expense");
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Actual Spending");
+        BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Projected Spending");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
 
