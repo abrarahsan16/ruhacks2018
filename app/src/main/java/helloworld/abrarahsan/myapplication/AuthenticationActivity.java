@@ -265,9 +265,9 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             return false;
         }
 
-        int atindex = email.indexOf("@");
+        int atIndex = email.indexOf("@");
 
-        for (int i = 0; i < atindex; i++) {
+        for (int i = 0; i < atIndex; i++) {
             boolean isSpecial = false;
             for (char c : new char[]{'!', '#', '$', '%', '&', '\'',  '*', '+', '-', '/', '=', '?',
                     '^', '_', '`', '{', '|', '}', '~'}) {
@@ -281,7 +281,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             }
         }
 
-        return email.substring(atindex+1).contains(".");
+        return email.substring(atIndex+1).contains(".");
     }
 
     private boolean isPasswordValid(String password) {
