@@ -1,6 +1,6 @@
 package helloworld.abrarahsan.myapplication;
 
-import android.os.Bundle;
+/*import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
 import android.webkit.WebView;
@@ -20,4 +20,4 @@ public class GoogleImageGraphActivity extends Activity{
         WebView webview = (WebView) findViewById(R.id.webView1);
         webview.loadUrl(GraphURL);
     }
-}
+}*/
