@@ -85,7 +85,6 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     // Keeping track of sign-in or sign-up state
     protected enum Status {SIGNIN, SIGNUP}
     Status status;
-    private boolean loggedIn;
 
     /**
      * Start-up configuration.
@@ -429,24 +428,20 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                 public void done(ParseUser user, ParseException e) {
                                     if (e == null && user != null) {
                                         Log.i("Login", "Successful!");
-                                        loggedIn = true;
                                         mAuthTask = null;
                                         showProgress(false);
 
-                                        if (loggedIn) {
-                                            Toast.makeText(AuthenticationActivity.this,
-                                                    "Successfully signed in!", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getApplicationContext(), Overview.class);
-                                            startActivity(intent);
-                                        } else {
-                                            mPasswordView.setError(getString(R.string.error_login_unsuccessful));
-                                            mPasswordView.requestFocus();
-                                        }
+                                        Toast.makeText(AuthenticationActivity.this,
+                                                "Successfully signed in!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                        startActivity(intent);
                                     } else {
                                         Toast.makeText(AuthenticationActivity.this,
                                                 e.getMessage(), Toast.LENGTH_SHORT).show();
                                         e.printStackTrace();
-                                        loggedIn = false;
+
+                                        mPasswordView.setError(getString(R.string.error_login_unsuccessful));
+                                        mPasswordView.requestFocus();
                                     }
                                 }
                             });
@@ -475,24 +470,20 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                         public void done(ParseException e) {
                             if (e == null) {
                                 Log.i("Signup", "Successful!");
-                                loggedIn = true;
                                 mAuthTask = null;
                                 showProgress(false);
 
-                                if (loggedIn) {
-                                    Toast.makeText(AuthenticationActivity.this,
-                                            "Successfully signed up!", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), Overview.class);
-                                    startActivity(intent);
-                                } else {
-                                    mPasswordView.setError(getString(R.string.error_login_unsuccessful));
-                                    mPasswordView.requestFocus();
-                                }
+                                Toast.makeText(AuthenticationActivity.this,
+                                        "Successfully signed up!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                startActivity(intent);
                             } else {
                                 Toast.makeText(AuthenticationActivity.this,
                                         e.getMessage(), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
-                                loggedIn = false;
+
+                                mPasswordView.setError(getString(R.string.error_login_unsuccessful));
+                                mPasswordView.requestFocus();
                             }
                         }
                     });
@@ -530,7 +521,13 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             } else {
                 signUp(mName, mEmail, mPassword);
             }
-            return loggedIn;
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            showProgress(false);
         }
 
         @Override
