@@ -6,67 +6,44 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="51dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="220dp"
-        android:ems="10"
-        android:inputType="number"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="280dp"
-        android:layout_marginStart="45dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/textView"
-        android:layout_width="212dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="55dp"
-        android:layout_marginTop="200dp"
-        android:contentDescription="@string/prompt_name"
-        android:text="Total Spending:"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="208dp"
-        android:layout_height="27dp"
-        android:layout_marginStart="55dp"
-        android:text="Planned spending:"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_marginBottom="56dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:hint="@string/projected_Spending"
+        app:layout_constraintBottom_toTopOf="@+id/barchartOverview"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/button"
-        style="@style/Widget.AppCompat.Button"
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="200dp"
-        android:text="View"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="84dp"
+        android:layout_marginTop="40dp"
+        android:hint="@string/actual_spending"
+        app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintHorizontal_bias="0.337"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.152" />
 
-    <Button
-        android:id="@+id/button2"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="300dp"
-        android:layout_marginEnd="30dp"
-        android:text="View"
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchartOverview"
+        android:layout_width="match_parent"
+        android:layout_height="325dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </com.github.mikephil.charting.charts.BarChart>
 </android.support.constraint.ConstraintLayout>
