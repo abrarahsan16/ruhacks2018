@@ -41,7 +41,7 @@ public class History extends Activity {
                 + "            </head>"
                 + "            <body>"
                 + "              <div id=\"chart_div\" style=\"width:1000px; height:500px;\"></div>"
-                + "            </body>" + "</html>"
+                + "            </body>" + "</html>";
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webView.requestFocusFromTouch();
