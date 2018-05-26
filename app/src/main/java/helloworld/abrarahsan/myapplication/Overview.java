@@ -36,11 +36,11 @@ public class Overview extends AppCompatActivity {
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
 
         BarData data = new BarData(barDataSet);
-        data.setBarWidth(0.4f);
+        data.setBarWidth(0.25f);
 
         barchart.setData(data);
         //barchart.invalidate();
-        barchart.groupBars(1, 0.1f, 0.02f);
+        //barchart.groupBars(1, 0.1f, 0.02f);
         String[] tasks = new String[]{"Real", "Projected"};
         // String[] months =
         XAxis xAxis = barchart.getXAxis();

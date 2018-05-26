@@ -71,6 +71,7 @@ public class History extends Activity{
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
         xAxis.setAxisMinimum(1);
+        onStop();
     }
 
 
@@ -111,6 +112,10 @@ public class History extends Activity{
         {
             return mValues[(int)value];
         }
+    }
+    public void onStop() {
+
+        super.onStop();
     }
 }
 
