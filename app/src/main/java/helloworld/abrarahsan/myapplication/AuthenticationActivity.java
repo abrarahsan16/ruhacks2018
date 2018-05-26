@@ -3,6 +3,7 @@ package helloworld.abrarahsan.myapplication;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -268,7 +269,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             cancel = true;
         }
 
-        // Check for matching passwords in sign-up
+        // Check for matching passwords in sign-up.
         if (status == SIGNUP && !mPasswordView.getText().toString()
                         .equals(mRepeatPasswordView.getText().toString())) {
             mRepeatPasswordView.setError(getString(R.string.error_passwords_not_matching));
@@ -415,8 +416,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         int IS_PRIMARY = 1;
     }
 
-    public boolean signIn(String email, String password) {
-        loggedIn = false;
+    public void signIn(String email, String password) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
         query.whereEqualTo("username", mEmailView.getText().toString());
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -430,10 +430,21 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                     if (e == null && user != null) {
                                         Log.i("Login", "Successful!");
                                         loggedIn = true;
+                                        mAuthTask = null;
+                                        showProgress(false);
+
+                                        if (loggedIn) {
+                                            Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                            startActivity(intent);
+                                        } else {
+                                            mPasswordView.setError(getString(R.string.error_login_unsuccessful));
+                                            mPasswordView.requestFocus();
+                                        }
                                     } else {
                                         Toast.makeText(AuthenticationActivity.this,
                                                 e.getMessage(), Toast.LENGTH_SHORT).show();
                                         e.printStackTrace();
+                                        loggedIn = false;
                                     }
                                 }
                             });
@@ -444,11 +455,9 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                 }
             }
         });
-        return loggedIn;
     }
 
-    public boolean signUp(String email, String password) {
-        loggedIn = false;
+    public void signUp(String email, String password) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
         query.whereEqualTo("username", mEmailView.getText().toString());
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -464,10 +473,21 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                             if (e == null) {
                                 Log.i("Signup", "Successful!");
                                 loggedIn = true;
+                                mAuthTask = null;
+                                showProgress(false);
+
+                                if (loggedIn) {
+                                    Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                    startActivity(intent);
+                                } else {
+                                    mPasswordView.setError(getString(R.string.error_login_unsuccessful));
+                                    mPasswordView.requestFocus();
+                                }
                             } else {
                                 Toast.makeText(AuthenticationActivity.this,
                                         e.getMessage(), Toast.LENGTH_SHORT).show();
                                 e.printStackTrace();
+                                loggedIn = false;
                             }
                         }
                     });
@@ -478,7 +498,6 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                 }
             }
         });
-        return loggedIn;
     }
 
     /**
@@ -500,24 +519,11 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             Log.i("Credentials", mEmail + ", " + mPassword);
             ParseUser.logOut();
             if (status == SIGNIN) {
-                return signIn(mEmail, mPassword);
+                signIn(mEmail, mPassword);
             } else {
-                return signUp(mEmail, mPassword);
+                signUp(mEmail, mPassword);
             }
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-            Log.i("Logged in", Boolean.toString(success));
-
-            if (success || loggedIn) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_login_unsuccessful));
-                mPasswordView.requestFocus();
-            }
+            return loggedIn;
         }
 
         @Override
