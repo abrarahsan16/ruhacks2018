@@ -245,6 +245,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
+        String name = mNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
@@ -285,7 +286,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(name, email, password);
 
             try {
                 mAuthTask.execute((Void) null);
@@ -416,15 +417,14 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         int IS_PRIMARY = 1;
     }
 
-    public void signIn(String email, String password) {
+    public void signIn(final String email, final String password) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
         query.whereEqualTo("username", mEmailView.getText().toString());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
-                    ParseUser.logInInBackground(mEmailView.getText().toString(),
-                            mPasswordView.getText().toString(), new LogInCallback() {
+                    ParseUser.logInInBackground(email, password, new LogInCallback() {
                                 @Override
                                 public void done(ParseUser user, ParseException e) {
                                     if (e == null && user != null) {
@@ -434,6 +434,8 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                         showProgress(false);
 
                                         if (loggedIn) {
+                                            Toast.makeText(AuthenticationActivity.this,
+                                                    "Successfully signed in!", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getApplicationContext(), Overview.class);
                                             startActivity(intent);
                                         } else {
@@ -457,7 +459,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         });
     }
 
-    public void signUp(String email, String password) {
+    public void signUp(final String name, final String email, final String password) {
         ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
         query.whereEqualTo("username", mEmailView.getText().toString());
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -465,8 +467,9 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             public void done(List<ParseObject> objects, ParseException e) {
                 if (e == null) {
                     ParseUser user = new ParseUser();
-                    user.setUsername(mEmailView.getText().toString());
-                    user.setPassword(mPasswordView.getText().toString());
+                    user.setUsername(name);
+                    user.setPassword(password);
+                    user.put("email", email);
                     user.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(ParseException e) {
@@ -477,6 +480,8 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                 showProgress(false);
 
                                 if (loggedIn) {
+                                    Toast.makeText(AuthenticationActivity.this,
+                                            "Successfully signed up!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), Overview.class);
                                     startActivity(intent);
                                 } else {
@@ -506,10 +511,12 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+        private final String mName;
         private final String mEmail;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String name, String email, String password) {
+            mName = name;
             mEmail = email;
             mPassword = password;
         }
@@ -521,7 +528,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             if (status == SIGNIN) {
                 signIn(mEmail, mPassword);
             } else {
-                signUp(mEmail, mPassword);
+                signUp(mName, mEmail, mPassword);
             }
             return loggedIn;
         }
