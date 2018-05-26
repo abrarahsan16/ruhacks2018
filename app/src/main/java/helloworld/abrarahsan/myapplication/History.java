@@ -59,7 +59,7 @@ public class History extends Activity {
         String[] months = new String[]{"Jan", "Feb", "Mar"};
        // String[] months =
         XAxis xAxis = barchart.getXAxis();
-        xAxis.setValueFormatter(new myXAxisValueFormatter(months));
+       // xAxis.setValueFormatter(new myXAxisValueFormatter(months));
 
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1);
