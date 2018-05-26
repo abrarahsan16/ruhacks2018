@@ -241,12 +241,31 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        if (email.startsWith(".") || email.startsWith("@") || email.endsWith("@")
+                || !email.contains("@")) {
+            return false;
+        }
+
+        int atindex = email.indexOf("@");
+
+        for (int i = 0; i < atindex; i++) {
+            boolean isSpecial = false;
+            for (char c : new char[]{'!', '#', '$', '%', '&', '\'',  '*', '+', '-', '/', '=', '?',
+                    '^', '_', '`', '{', '|', '}', '~'}) {
+                if (c == email.charAt(i)) {
+                    isSpecial = true;
+                }
+            }
+            if (!(Character.isLetter(email.charAt(i)) || Character.isDigit(email.charAt(i))
+                    || isSpecial)) {
+                return false;
+            }
+        }
+
+        return email.substring(atindex+1).contains(".");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
