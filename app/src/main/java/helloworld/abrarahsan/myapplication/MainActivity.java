@@ -24,8 +24,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void googlePressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), GoogleImageGraphActivity.class);
-        startActivity(intent);
+        //Intent intent = new Intent(getApplicationContext(), GoogleImageGraphActivity.class);
+        //startActivity(intent);
     }
 
     public void historyPressed(View view) {
