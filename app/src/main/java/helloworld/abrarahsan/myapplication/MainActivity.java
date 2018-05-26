@@ -23,8 +23,23 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void googlePressed(View view) {
+        Intent intent = new Intent(getApplicationContext(), GoogleImageGraphActivity.class);
+        startActivity(intent);
+    }
+
     public void historyPressed(View view) {
         Intent intent = new Intent(getApplicationContext(), History.class);
+        startActivity(intent);
+    }
+
+    public void overviewPressed(View view) {
+        Intent intent = new Intent(getApplicationContext(), Overview.class);
+        startActivity(intent);
+    }
+
+    public void planningPressed(View view) {
+        Intent intent = new Intent(getApplicationContext(), Planning.class);
         startActivity(intent);
     }
 }

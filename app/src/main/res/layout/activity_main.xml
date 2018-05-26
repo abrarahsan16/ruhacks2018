@@ -14,11 +14,38 @@
         android:text="Continue" />
 
     <Button
+        android:id="@+id/googleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="googlePressed"
+        android:text="Google"
+        app:layout_constraintTop_toBottomOf="@+id/continueButton"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
         android:id="@+id/historyButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="historyPressed"
         android:text="History"
-        app:layout_constraintTop_toBottomOf="@+id/continueButton"
+        app:layout_constraintTop_toBottomOf="@+id/googleButton"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/overviewButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="overviewPressed"
+        android:text="Overview"
+        app:layout_constraintTop_toBottomOf="@+id/historyButton"
+        tools:layout_editor_absoluteX="0dp" />
+
+    <Button
+        android:id="@+id/planningButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="planningPressed"
+        android:text="Planning"
+        app:layout_constraintTop_toBottomOf="@+id/overviewButton"
         tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>

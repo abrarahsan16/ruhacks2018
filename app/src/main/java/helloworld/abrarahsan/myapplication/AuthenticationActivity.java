@@ -29,6 +29,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.parse.Parse;
+import com.parse.ParseACL;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +80,22 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
+
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        // Add your initialization code here
+        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                .applicationId("a4f4ff6b75594351ecadd7911f2f0822c48e5826")
+                .clientKey("b81458ce9c45cbd5866fc6fc4e6bbd43cfdc024e")
+                .server("http://18.188.4.188:80/parse/")
+                .build()
+        );
+
+        ParseACL defaultACL = new ParseACL();
+        defaultACL.setPublicReadAccess(true);
+        defaultACL.setPublicWriteAccess(true);
+        ParseACL.setDefaultACL(defaultACL, true);
 
         status = SIGNIN;
 
@@ -241,12 +260,31 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+        if (email.startsWith(".") || email.startsWith("@") || email.endsWith("@")
+                || !email.contains("@")) {
+            return false;
+        }
+
+        int atIndex = email.indexOf("@");
+
+        for (int i = 0; i < atIndex; i++) {
+            boolean isSpecial = false;
+            for (char c : new char[]{'!', '#', '$', '%', '&', '\'',  '*', '+', '-', '/', '=', '?',
+                    '^', '_', '`', '{', '|', '}', '~'}) {
+                if (c == email.charAt(i)) {
+                    isSpecial = true;
+                }
+            }
+            if (!(Character.isLetter(email.charAt(i)) || Character.isDigit(email.charAt(i))
+                    || isSpecial)) {
+                return false;
+            }
+        }
+
+        return email.substring(atIndex+1).contains(".");
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
         return password.length() > 4;
     }
 
