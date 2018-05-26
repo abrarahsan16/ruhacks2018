@@ -2,6 +2,7 @@ package helloworld.abrarahsan.myapplication;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 
 public class Overview extends AppCompatActivity {
     BarChart barchart;
+    TextView actualTextView;
+    TextView projectedTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,13 @@ public class Overview extends AppCompatActivity {
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1, 500));
         barEntries.add(new BarEntry(2, 1000));
+
+        actualTextView = findViewById(R.id.actualTextView);
+        actualTextView.setText("Actual spending: $"
+                + String.format("%-1.2f", barEntries.get(0).getY()));
+        projectedTextView = findViewById(R.id.projectedTextView);
+        projectedTextView.setText("Projected spending: $"
+                + String.format("%-1.2f", barEntries.get(1).getY()));
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Actual Spending");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
