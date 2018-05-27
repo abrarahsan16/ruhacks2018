@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:onClick="googlePressed"
         android:text="Google"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/continueButton"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -29,6 +30,7 @@
         android:layout_height="wrap_content"
         android:onClick="historyPressed"
         android:text="History"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/googleButton"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -38,6 +40,7 @@
         android:layout_height="wrap_content"
         android:onClick="overviewPressed"
         android:text="Overview"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/historyButton"
         tools:layout_editor_absoluteX="0dp" />
 
@@ -47,6 +50,7 @@
         android:layout_height="wrap_content"
         android:onClick="planningPressed"
         android:text="Planning"
+        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/overviewButton"
         tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>

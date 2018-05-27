@@ -1,8 +1,15 @@
 package helloworld.abrarahsan.myapplication;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.BarChart;
@@ -13,6 +20,7 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
@@ -20,6 +28,30 @@ public class Overview extends AppCompatActivity {
     BarChart barchart;
     TextView actualTextView;
     TextView projectedTextView;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.overview_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.history) {
+            Intent intent = new Intent(getApplicationContext(), History.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.planning) {
+            Intent intent = new Intent(getApplicationContext(), Planning.class);
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.logout) {
+            ParseUser.logOut();
+            Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,34 +71,31 @@ public class Overview extends AppCompatActivity {
         barEntries.add(new BarEntry(1, 100));
         barEntries.add(new BarEntry(1, 150));
 
-        ArrayList<BarEntry>barEntries2 = new ArrayList<>();
+        ArrayList<BarEntry> barEntries2 = new ArrayList<>();
         barEntries.add(new BarEntry(2, 1000));
         //ArrayList<BarEntry>barEntries3 = new ArrayList<>();
 
         //barEntries.add(new BarEntry(2, null));
 
-      //  ArrayList<BarEntry>barEntries4 = new ArrayList<>();
+        //  ArrayList<BarEntry>barEntries4 = new ArrayList<>();
         //  barEntries.add(new BarEntry(1, 150));
-
-
 
 
         actualTextView = findViewById(R.id.actualTextView);
         actualTextView.setText("Actual spending: $"
-                + String.format("%-1.2f", barEntries.get(0).getY()+barEntries.get(1).getY()+
-                barEntries.get(2).getY()+barEntries.get(3).getY() ));
+                + String.format("%-1.2f", barEntries.get(0).getY() + barEntries.get(1).getY() +
+                barEntries.get(2).getY() + barEntries.get(3).getY()));
         projectedTextView = findViewById(R.id.projectedTextView);
         projectedTextView.setText("Projected spending: $"
                 + String.format("%-1.2f", barEntries.get(4).getY()));
 
 
-
         BarDataSet barDataSet = new BarDataSet(barEntries, "Actual spending");
-       BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Projected spending");
+        BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Projected spending");
 //     //   BarDataSet barDataSet4 = new BarDataSet(barEntries4, "Cat4");
 
 
-      barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
 
 
@@ -88,16 +117,18 @@ public class Overview extends AppCompatActivity {
         xAxis.setAxisMinimum(0);
 
     }
+
     public class myXAxisValueFormatter implements IAxisValueFormatter {
 
         private String[] mValues;
-        public myXAxisValueFormatter(String[]values){
+
+        public myXAxisValueFormatter(String[] values) {
             this.mValues = values;
         }
+
         @Override
-        public String getFormattedValue(float value, AxisBase axis)
-        {
-            return mValues[(int)value];
+        public String getFormattedValue(float value, AxisBase axis) {
+            return mValues[(int) value];
         }
     }
 

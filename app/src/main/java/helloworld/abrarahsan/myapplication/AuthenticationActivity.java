@@ -419,6 +419,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                                 "Successfully signed in!", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getApplicationContext(), Overview.class);
                                         startActivity(intent);
+                                        finish();
                                     } else {
                                         Toast.makeText(AuthenticationActivity.this,
                                                 e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -461,6 +462,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
                                         "Successfully signed up!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), Overview.class);
                                 startActivity(intent);
+                                finish();
                             } else {
                                 Toast.makeText(AuthenticationActivity.this,
                                         e.getMessage(), Toast.LENGTH_SHORT).show();
