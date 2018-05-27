@@ -7,6 +7,7 @@ import android.app.Activity;
 
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -14,8 +15,13 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class History extends Activity{
@@ -35,6 +41,30 @@ public class History extends Activity{
         barchart.setMaxVisibleValueCount(50);
         barchart.setPinchZoom(false);
         barchart.setDrawGridBackground(true);
+
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername().toString());
+        query.findInBackground(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null && !objects.isEmpty()) {
+                    ParseUser user = objects.get(0);
+                    double food = user.getDouble("food");
+                    double misc = user.getDouble("misc");
+                    double trans = user.getDouble("trans");
+                    double util = user.getDouble("util");
+
+                    Description description = new Description();
+                    description.setText(Double.toString(food) + ", " + Double.toString(misc)
+                            + ", " + Double.toString(trans) + ", " + Double.toString(util));
+                    barchart.setDescription(description);
+                } else {
+                    Description description = new Description();
+                    description.setText("No user data found");
+                    barchart.setDescription(description);
+                }
+            }
+        });
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1, 1000));
