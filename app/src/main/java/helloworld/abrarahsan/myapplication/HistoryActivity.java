@@ -75,47 +75,6 @@ public class HistoryActivity extends Activity {
         }
     }
 
-
-    /*    public void runInBackground() {
-            if (isRecursionEnable)
-                return;
-
-            isRecursionEnable = true; //on exception on thread make it true again
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //do task here
-
-                    //YAxis yAxis = barchart.getYAxis();
-
-                    /*if (activity_is_not_in_background) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                runInBackground();
-                            }
-                        });
-                    } else {
-                        runInBackground();
-                    }
-                }
-            }).start();
-
-        }*/
-    public class myXAxisValueFormatter implements IAxisValueFormatter {
-
-        private String[] mValues;
-
-        public myXAxisValueFormatter(String[] values) {
-            this.mValues = values;
-        }
-
-        @Override
-        public String getFormattedValue(float value, AxisBase axis) {
-            return mValues[(int) value];
-        }
-    }
-
     public void drawChart(double food, double misc, double trans, double util) {
         BarChart barchart = (BarChart) findViewById(R.id.barchart);
 
