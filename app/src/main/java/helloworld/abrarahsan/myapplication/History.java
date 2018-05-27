@@ -60,6 +60,8 @@ public class History extends Activity {
                         double trans = user.getDouble("trans");
                         double util = user.getDouble("util");
 
+                        /** FOUR DATABASE FIELDS GIVEN HERE, USE THIS TO PRESENT THE DATA */
+
                         Description description = new Description();
                         description.setText(Double.toString(food) + ", " + Double.toString(misc)
                                 + ", " + Double.toString(trans) + ", " + Double.toString(util));
