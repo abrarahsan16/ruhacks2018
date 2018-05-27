@@ -3,6 +3,7 @@ package helloworld.abrarahsan.myapplication;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -19,6 +20,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,9 +30,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.parse.FindCallback;
+import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,26 +86,14 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
     protected enum Status {SIGNIN, SIGNUP}
     Status status;
 
+    /**
+     * Start-up configuration.
+     * @param savedInstanceState Application state.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_authentication);
-
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-
-        // Add your initialization code here
-        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
-                .applicationId("a4f4ff6b75594351ecadd7911f2f0822c48e5826")
-                .clientKey("b81458ce9c45cbd5866fc6fc4e6bbd43cfdc024e")
-                .server("http://18.188.4.188:80/parse/")
-                .build()
-        );
-
-        ParseACL defaultACL = new ParseACL();
-        defaultACL.setPublicReadAccess(true);
-        defaultACL.setPublicWriteAccess(true);
-        ParseACL.setDefaultACL(defaultACL, true);
 
         status = SIGNIN;
 
@@ -145,6 +143,9 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         mProgressView = findViewById(R.id.login_progress);
     }
 
+    /**
+     * Populate auto-complete.
+     */
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
             return;
@@ -153,6 +154,10 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         getLoaderManager().initLoader(0, null, this);
     }
 
+    /**
+     * Check permission to read contacts.
+     * @return Result of whether permission was granted.
+     */
     private boolean mayRequestContacts() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return true;
@@ -188,21 +193,22 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         }
     }
 
-    /**
-     * Change between modes to signup and sign in while staying on the same screen
-     */
     public void change() {
         if (status == SIGNIN) {
             status = SIGNUP;
+            setTitle("Sign Up");
             mNameView.setVisibility(View.VISIBLE);
             mNameView.requestFocus();
             mRepeatPasswordView.setVisibility(View.VISIBLE);
+            mAuthenticationButton.setText(R.string.action_sign_up);
             mChangeButton.setText(getResources().getString(R.string.prompt_sign_in));
         } else {
             status = SIGNIN;
+            setTitle("Sign In");
             mNameView.setVisibility(View.GONE);
             mEmailView.requestFocus();
             mRepeatPasswordView.setVisibility(View.GONE);
+            mAuthenticationButton.setText(R.string.action_sign_in);
             mChangeButton.setText(getResources().getString(R.string.prompt_sign_up));
         }
     }
@@ -222,6 +228,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
+        String name = mNameView.getText().toString();
         String email = mEmailView.getText().toString();
         String password = mPasswordView.getText().toString();
 
@@ -246,6 +253,14 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             cancel = true;
         }
 
+        // Check for matching passwords in sign-up.
+        if (status == SIGNUP && !mPasswordView.getText().toString()
+                        .equals(mRepeatPasswordView.getText().toString())) {
+            mRepeatPasswordView.setError(getString(R.string.error_passwords_not_matching));
+            focusView = mRepeatPasswordView;
+            cancel = true;
+        }
+
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -254,8 +269,15 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            mAuthTask = new UserLoginTask(name, email, password);
+
+            try {
+                mAuthTask.execute((Void) null);
+            } catch (Exception e) {
+                Toast.makeText(AuthenticationActivity.this,
+                        e.getMessage(), Toast.LENGTH_SHORT).show();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -378,54 +400,118 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
         int IS_PRIMARY = 1;
     }
 
+    public void signIn(final String email, final String password) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("username", mEmailView.getText().toString());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseUser.logInInBackground(email, password, new LogInCallback() {
+                                @Override
+                                public void done(ParseUser user, ParseException e) {
+                                    if (e == null && user != null) {
+                                        Log.i("Login", "Successful!");
+                                        mAuthTask = null;
+                                        showProgress(false);
+
+                                        Toast.makeText(AuthenticationActivity.this,
+                                                "Successfully signed in!", Toast.LENGTH_SHORT).show();
+                                        Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                        startActivity(intent);
+                                    } else {
+                                        Toast.makeText(AuthenticationActivity.this,
+                                                e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        e.printStackTrace();
+
+                                        mPasswordView.setError(getString(R.string.error_sign_in_unsuccessful));
+                                        mPasswordView.requestFocus();
+                                    }
+                                }
+                            });
+                } else {
+                    Toast.makeText(AuthenticationActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    public void signUp(final String name, final String email, final String password) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+        query.whereEqualTo("username", mEmailView.getText().toString());
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (e == null) {
+                    ParseUser user = new ParseUser();
+                    user.setUsername(name);
+                    user.setPassword(password);
+                    user.put("email", email);
+                    user.signUpInBackground(new SignUpCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (e == null) {
+                                Log.i("Signup", "Successful!");
+                                mAuthTask = null;
+                                showProgress(false);
+
+                                Toast.makeText(AuthenticationActivity.this,
+                                        "Successfully signed up!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(AuthenticationActivity.this,
+                                        e.getMessage(), Toast.LENGTH_SHORT).show();
+                                e.printStackTrace();
+
+                                mPasswordView.setError(getString(R.string.error_sign_up_unsuccessful));
+                                mPasswordView.requestFocus();
+                            }
+                        }
+                    });
+                } else {
+                    Toast.makeText(AuthenticationActivity.this,
+                            e.getMessage(), Toast.LENGTH_SHORT).show();
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
+        private final String mName;
         private final String mEmail;
         private final String mPassword;
 
-        UserLoginTask(String email, String password) {
+        UserLoginTask(String name, String email, String password) {
+            mName = name;
             mEmail = email;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
+            Log.i("Credentials", mEmail + ", " + mPassword);
+            ParseUser.logOut();
+            if (status == SIGNIN) {
+                signIn(mEmail, mPassword);
+            } else {
+                signUp(mName, mEmail, mPassword);
             }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
             return true;
         }
 
         @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
             showProgress(false);
-
-            if (success) {
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
         }
 
         @Override

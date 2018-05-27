@@ -6,16 +6,31 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity extends AppCompatActivity {
+import com.parse.Parse;
+import com.parse.ParseACL;
 
-    Button continueButton;
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        continueButton = findViewById(R.id.continueButton);
+        // Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+
+        // Add your initialization code here
+        Parse.initialize(new Parse.Configuration.Builder(getApplicationContext())
+                .applicationId("a4f4ff6b75594351ecadd7911f2f0822c48e5826")
+                .clientKey("b81458ce9c45cbd5866fc6fc4e6bbd43cfdc024e")
+                .server("http://18.188.4.188:80/parse/")
+                .build()
+        );
+
+        ParseACL defaultACL = new ParseACL();
+        defaultACL.setPublicReadAccess(true);
+        defaultACL.setPublicWriteAccess(true);
+        ParseACL.setDefaultACL(defaultACL, true);
     }
 
     public void continuePressed(View view) {

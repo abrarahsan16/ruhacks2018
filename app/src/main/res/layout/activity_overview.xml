@@ -6,57 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/Total"
-        style="@android:style/Widget.AutoCompleteTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="51dp"
-        android:layout_marginStart="45dp"
-        android:layout_marginTop="220dp"
-        android:ems="10"
-        android:hint="Total Spending"
-        android:inputType="number"
-        android:visibility="visible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:hint="Total Spending:" />
-
-    <EditText
-        android:id="@+id/Planned"
-        style="@android:style/Widget.AutoCompleteTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="45dp"
-        android:layout_marginBottom="280dp"
-        android:layout_marginStart="45dp"
-        android:ems="10"
-        android:hint="Planned Spending"
-        android:inputType="number"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:hint="Planned Spending:" />
-
-    <Button
-        android:id="@+id/Totalbutton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="220dp"
-        android:text="View"
+    <TextView
+        android:id="@+id/actualTextView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="64dp"
+        android:hint="@string/actual_spending"
+        android:textAlignment="center"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/Planbutton"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="280dp"
-        android:layout_marginEnd="30dp"
-        android:text="View"
+    <TextView
+        android:id="@+id/projectedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:hint="@string/projected_Spending"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/barchartOverview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actualTextView" />
+
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/barchartOverview"
+        android:layout_width="match_parent"
+        android:layout_height="325dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/projectedTextView">
+
+    </com.github.mikephil.charting.charts.BarChart>
 
     <TextView
         android:id="@+id/textView3"
