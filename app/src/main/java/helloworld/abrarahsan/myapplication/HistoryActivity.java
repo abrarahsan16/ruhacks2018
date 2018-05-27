@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class History extends Activity {
+public class HistoryActivity extends Activity {
     BarChart barchart;
     public static boolean isRecursionEnable = false;
 

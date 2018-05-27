@@ -22,9 +22,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Overview" />
-        <activity android:name=".History" />
-        <activity android:name=".Planning" />
+        <activity android:name=".OverviewActivity" />
+        <activity android:name=".HistoryActivity" />
+        <activity android:name=".PlanningActivity" />
         <activity
             android:name=".AuthenticationActivity"
             android:label="@string/title_activity_authentication"></activity>

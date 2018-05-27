@@ -10,7 +10,7 @@ import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-public class Planning extends AppCompatActivity {
+public class PlanningActivity extends AppCompatActivity {
 
     EditText foodEditText;
     EditText transEditText;
@@ -66,11 +66,11 @@ public class Planning extends AppCompatActivity {
                     @Override
                     public void done(ParseException e) {
                         if (e == null) {
-                            Toast.makeText(Planning.this,
+                            Toast.makeText(PlanningActivity.this,
                                     "Data saved successfully!",
                                     Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(Planning.this,
+                            Toast.makeText(PlanningActivity.this,
                                     "There was a problem saving your data.",
                                     Toast.LENGTH_SHORT).show();
                         }

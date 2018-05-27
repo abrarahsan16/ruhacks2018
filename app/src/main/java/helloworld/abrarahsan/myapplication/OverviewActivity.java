@@ -1,10 +1,7 @@
 package helloworld.abrarahsan.myapplication;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,7 +21,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
-public class Overview extends AppCompatActivity {
+public class OverviewActivity extends AppCompatActivity {
     BarChart barchart;
     TextView actualTextView;
     TextView projectedTextView;
@@ -39,10 +36,10 @@ public class Overview extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.history) {
-            Intent intent = new Intent(getApplicationContext(), History.class);
+            Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.planning) {
-            Intent intent = new Intent(getApplicationContext(), Planning.class);
+            Intent intent = new Intent(getApplicationContext(), PlanningActivity.class);
             startActivity(intent);
         } else if (item.getItemId() == R.id.logout) {
             ParseUser.logOut();

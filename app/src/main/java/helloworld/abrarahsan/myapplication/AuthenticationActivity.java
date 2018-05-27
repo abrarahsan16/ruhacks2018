@@ -34,8 +34,6 @@ import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.LogInCallback;
-import com.parse.Parse;
-import com.parse.ParseACL;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -417,7 +415,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
 
                                         Toast.makeText(AuthenticationActivity.this,
                                                 "Successfully signed in!", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                        Intent intent = new Intent(getApplicationContext(), OverviewActivity.class);
                                         startActivity(intent);
                                         finish();
                                     } else {
@@ -460,7 +458,7 @@ public class AuthenticationActivity extends AppCompatActivity implements LoaderC
 
                                 Toast.makeText(AuthenticationActivity.this,
                                         "Successfully signed up!", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), Overview.class);
+                                Intent intent = new Intent(getApplicationContext(), OverviewActivity.class);
                                 startActivity(intent);
                                 finish();
                             } else {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import com.parse.Parse;
 import com.parse.ParseACL;
@@ -44,17 +43,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void historyPressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), History.class);
+        Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
         startActivity(intent);
     }
 
     public void overviewPressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), Overview.class);
+        Intent intent = new Intent(getApplicationContext(), OverviewActivity.class);
         startActivity(intent);
     }
 
     public void planningPressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), Planning.class);
+        Intent intent = new Intent(getApplicationContext(), PlanningActivity.class);
         startActivity(intent);
     }
 }
