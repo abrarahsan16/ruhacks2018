@@ -8,6 +8,20 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/projectedTextView"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:hint="@string/projected_Spending"
+        android:textAlignment="center"
+        android:textColor="@android:color/background_light"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toTopOf="@+id/barchartOverview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/actualTextView" />
+
+    <TextView
         android:id="@+id/actualTextView"
         android:layout_width="match_parent"
         android:layout_height="47dp"
@@ -20,19 +34,6 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/projectedTextView"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:hint="@string/projected_Spending"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/barchartOverview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/actualTextView" />
 
     <com.github.mikephil.charting.charts.BarChart
         android:id="@+id/barchartOverview"
