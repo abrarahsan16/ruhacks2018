@@ -22,6 +22,8 @@ public class PlanningActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_planning);
 
+        setTitle("Planning");
+
         foodEditText = findViewById(R.id.foodEditText);
         transEditText = findViewById(R.id.transEditText);
         utilEditText = findViewById(R.id.utilEditText);

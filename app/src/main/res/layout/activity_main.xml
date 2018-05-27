@@ -7,50 +7,31 @@
     android:background="@color/customBackground"
     tools:context="helloworld.abrarahsan.myapplication.MainActivity">
 
-    <Button
-        android:id="@+id/continueButton"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="continuePressed"
-        android:text="Continue" />
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/googleButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="googlePressed"
-        android:text="Google"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/continueButton"
-        tools:layout_editor_absoluteX="0dp" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            app:srcCompat="@drawable/logo" />
 
-    <Button
-        android:id="@+id/historyButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="historyPressed"
-        android:text="History"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/googleButton"
-        tools:layout_editor_absoluteX="0dp" />
+        <Button
+            android:id="@+id/continueButton"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="continuePressed"
+            android:text="Continue"
+            android:textColor="@android:color/background_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/overviewButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="overviewPressed"
-        android:text="Overview"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/historyButton"
-        tools:layout_editor_absoluteX="0dp" />
-
-    <Button
-        android:id="@+id/planningButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="planningPressed"
-        android:text="Planning"
-        android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/overviewButton"
-        tools:layout_editor_absoluteX="0dp" />
 </android.support.constraint.ConstraintLayout>

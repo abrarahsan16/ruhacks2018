@@ -15,6 +15,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setTitle("SmartSpend");
+
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
 
@@ -34,26 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void continuePressed(View view) {
         Intent intent = new Intent(getApplicationContext(), AuthenticationActivity.class);
-        startActivity(intent);
-    }
-
-    public void googlePressed(View view) {
-        //Intent intent = new Intent(getApplicationContext(), GoogleImageGraphActivity.class);
-        //startActivity(intent);
-    }
-
-    public void historyPressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), HistoryActivity.class);
-        startActivity(intent);
-    }
-
-    public void overviewPressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), OverviewActivity.class);
-        startActivity(intent);
-    }
-
-    public void planningPressed(View view) {
-        Intent intent = new Intent(getApplicationContext(), PlanningActivity.class);
         startActivity(intent);
     }
 }

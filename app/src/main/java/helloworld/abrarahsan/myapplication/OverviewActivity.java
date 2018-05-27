@@ -65,6 +65,8 @@ public class OverviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_overview);
 
+        setTitle("Overview");
+
         if (ParseUser.getCurrentUser() != null) {
 
             ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -80,6 +82,8 @@ public class OverviewActivity extends AppCompatActivity {
                         double misc = user.getDouble("misc");
                         double trans = user.getDouble("trans");
                         double util = user.getDouble("util");
+
+                        setTitle("Overview for " + user.getUsername().toString());
 
                         drawChart(food, misc, trans, util);
 
