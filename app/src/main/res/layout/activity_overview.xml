@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/customBackground"
+    android:background="#778899"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,6 +14,7 @@
         android:layout_marginTop="64dp"
         android:hint="@string/actual_spending"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -26,6 +27,7 @@
         android:layout_height="32dp"
         android:hint="@string/projected_Spending"
         android:textAlignment="center"
+        android:textColor="@android:color/background_light"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/barchartOverview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,21 +48,5 @@
         app:layout_constraintTop_toBottomOf="@+id/projectedTextView">
 
     </com.github.mikephil.charting.charts.BarChart>
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Projected Spending: "
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="34dp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Spent So Far:"
-        tools:layout_editor_absoluteX="30dp"
-        tools:layout_editor_absoluteY="77dp" />
 
 </android.support.constraint.ConstraintLayout>
