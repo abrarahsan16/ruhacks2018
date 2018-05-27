@@ -35,49 +35,47 @@ public class Overview extends AppCompatActivity {
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1, 400));
-        barEntries.add(new BarEntry(2, 1000));
+        barEntries.add(new BarEntry(1, 250));
+        barEntries.add(new BarEntry(1, 100));
+        barEntries.add(new BarEntry(1, 150));
 
         ArrayList<BarEntry>barEntries2 = new ArrayList<>();
-        barEntries.add(new BarEntry(1, 250));
-        barEntries.add(new BarEntry(2, null));
+        barEntries.add(new BarEntry(2, 1000));
+        //ArrayList<BarEntry>barEntries3 = new ArrayList<>();
 
-        ArrayList<BarEntry>barEntries3 = new ArrayList<>();
-          barEntries.add(new BarEntry(1, 100));
-        barEntries.add(new BarEntry(2, null));
+        //barEntries.add(new BarEntry(2, null));
 
-        ArrayList<BarEntry>barEntries4 = new ArrayList<>();
-          barEntries.add(new BarEntry(1, 150));
-        barEntries.add(new BarEntry(2, null));
+      //  ArrayList<BarEntry>barEntries4 = new ArrayList<>();
+        //  barEntries.add(new BarEntry(1, 150));
+
 
 
 
         actualTextView = findViewById(R.id.actualTextView);
         actualTextView.setText("Actual spending: $"
-                + String.format("%-1.2f", barEntries.get(0).getY()));
+                + String.format("%-1.2f", barEntries.get(0).getY()+barEntries.get(1).getY()+
+                barEntries.get(2).getY()+barEntries.get(3).getY() ));
         projectedTextView = findViewById(R.id.projectedTextView);
         projectedTextView.setText("Projected spending: $"
-                + String.format("%-1.2f", barEntries.get(1).getY()));
+                + String.format("%-1.2f", barEntries.get(4).getY()));
 
 
 
-        BarDataSet barDataSet = new BarDataSet(barEntries, "Cat1");
-        BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Cat2");
-        BarDataSet barDataSet3 = new BarDataSet(barEntries3, "Cat3");
-        BarDataSet barDataSet4 = new BarDataSet(barEntries4, "Cat4");
+        BarDataSet barDataSet = new BarDataSet(barEntries, "Actual spending");
+       BarDataSet barDataSet2 = new BarDataSet(barEntries2, "Projected spending");
+//     //   BarDataSet barDataSet4 = new BarDataSet(barEntries4, "Cat4");
 
 
-        barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+      barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         barDataSet2.setColors(ColorTemplate.COLORFUL_COLORS);
-        barDataSet3.setColors(ColorTemplate.COLORFUL_COLORS);
-        barDataSet4.setColors(ColorTemplate.COLORFUL_COLORS);
 
 
-        BarData data = new BarData(barDataSet, barDataSet2, barDataSet3, barDataSet4);
-        data.setBarWidth(0.2f);
+        BarData data = new BarData(barDataSet, barDataSet2);
+        data.setBarWidth(0.27f);
 
         barchart.setData(data);
         //barchart.invalidate();
-        barchart.groupBars(1, 0.2f, 0.01f);
+        barchart.groupBars(0, 0f, 0f);
         //String[] tasks = new String[]{"Real", "Projected"};
         // String[] months =
         XAxis xAxis = barchart.getXAxis();
@@ -88,6 +86,7 @@ public class Overview extends AppCompatActivity {
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
         xAxis.setAxisMinimum(0);
+
     }
     public class myXAxisValueFormatter implements IAxisValueFormatter {
 
