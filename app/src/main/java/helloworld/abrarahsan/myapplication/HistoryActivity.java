@@ -47,6 +47,11 @@ public class HistoryActivity extends Activity {
         barchart.setDrawGridBackground(true);
         barchart.setGridBackgroundColor(Color.TRANSPARENT);
 
+        final double[] food = new double[1];
+        final double[] misc = new double[1];
+        final double[] trans = new double[1];
+        final double[] util = new double[1];
+
         if (ParseUser.getCurrentUser() != null) {
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername().toString());
@@ -55,16 +60,16 @@ public class HistoryActivity extends Activity {
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null && !objects.isEmpty()) {
                         ParseUser user = objects.get(0);
-                        double food = user.getDouble("food");
-                        double misc = user.getDouble("misc");
-                        double trans = user.getDouble("trans");
-                        double util = user.getDouble("util");
+                        food[0] = user.getDouble("food");
+                        misc[0] = user.getDouble("misc");
+                        trans[0] = user.getDouble("trans");
+                        util[0] = user.getDouble("util");
 
                         /** FOUR DATABASE FIELDS GIVEN HERE, USE THIS TO PRESENT THE DATA */
 
                         Description description = new Description();
-                        description.setText(Double.toString(food) + ", " + Double.toString(misc)
-                                + ", " + Double.toString(trans) + ", " + Double.toString(util));
+                        description.setText(Double.toString(food[0]) + ", " + Double.toString(misc[0])
+                                + ", " + Double.toString(trans[0]) + ", " + Double.toString(util[0]));
                         barchart.setDescription(description);
                     } else {
                         Description description = new Description();
@@ -77,10 +82,14 @@ public class HistoryActivity extends Activity {
             Toast.makeText(this, "Nobody is signed in!", Toast.LENGTH_SHORT).show();
         }
 
+        int f = (int)food[0];
+        float t = (float)trans[0];
+        float u = (float)util[0];
+
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-        barEntries.add(new BarEntry(1, 1000));
-        barEntries.add(new BarEntry(2, 2000));
-        barEntries.add(new BarEntry(3, 500));
+        barEntries.add(new BarEntry(1, f));
+        barEntries.add(new BarEntry(2, t));
+        barEntries.add(new BarEntry(3, u));
 
         ArrayList<BarEntry> barEntries2 = new ArrayList<>();
         barEntries2.add(new BarEntry(1, 400));
