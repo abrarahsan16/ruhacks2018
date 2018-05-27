@@ -46,4 +46,20 @@
 
     </com.github.mikephil.charting.charts.BarChart>
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Projected Spending: "
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="34dp" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Spent So Far:"
+        tools:layout_editor_absoluteX="30dp"
+        tools:layout_editor_absoluteY="77dp" />
+
 </android.support.constraint.ConstraintLayout>
