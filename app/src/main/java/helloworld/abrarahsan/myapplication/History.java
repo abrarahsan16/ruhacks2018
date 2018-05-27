@@ -1,6 +1,7 @@
 package helloworld.abrarahsan.myapplication;
 
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.app.Activity;
@@ -44,6 +45,7 @@ public class History extends Activity {
         barchart.setMaxVisibleValueCount(50);
         barchart.setPinchZoom(false);
         barchart.setDrawGridBackground(true);
+        barchart.setGridBackgroundColor(Color.TRANSPARENT);
 
         if (ParseUser.getCurrentUser() != null) {
             ParseQuery<ParseUser> query = ParseUser.getQuery();

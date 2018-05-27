@@ -1,5 +1,6 @@
 package helloworld.abrarahsan.myapplication;
 
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class Overview extends AppCompatActivity {
         barchart.setMaxVisibleValueCount(50);
         barchart.setPinchZoom(false);
         barchart.setDrawGridBackground(true);
+        barchart.setGridBackgroundColor(Color.TRANSPARENT);
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1, 500));
