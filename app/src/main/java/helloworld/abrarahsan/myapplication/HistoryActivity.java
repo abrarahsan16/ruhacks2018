@@ -47,49 +47,61 @@ public class HistoryActivity extends Activity {
         barchart.setDrawGridBackground(true);
         barchart.setGridBackgroundColor(Color.TRANSPARENT);
 
-        final double[] food = new double[1];
+        /*final double food = new double;
         final double[] misc = new double[1];
         final double[] trans = new double[1];
-        final double[] util = new double[1];
+        final double[] util = new double[1];*/
+        float f, m, t, u;
 
         if (ParseUser.getCurrentUser() != null) {
+
             ParseQuery<ParseUser> query = ParseUser.getQuery();
             query.whereEqualTo("username", ParseUser.getCurrentUser().getUsername().toString());
+
             query.findInBackground(new FindCallback<ParseUser>() {
+
+
                 @Override
                 public void done(List<ParseUser> objects, ParseException e) {
                     if (e == null && !objects.isEmpty()) {
                         ParseUser user = objects.get(0);
-                        food[0] = user.getDouble("food");
-                        misc[0] = user.getDouble("misc");
-                        trans[0] = user.getDouble("trans");
-                        util[0] = user.getDouble("util");
+                        double food, misc, trans, util;
+                        food = user.getDouble("food");
+                        misc = user.getDouble("misc");
+                        trans = user.getDouble("trans");
+                        util = user.getDouble("util");
 
                         /** FOUR DATABASE FIELDS GIVEN HERE, USE THIS TO PRESENT THE DATA */
 
-                        Description description = new Description();
-                        description.setText(Double.toString(food[0]) + ", " + Double.toString(misc[0])
+                        /*Description description = new Description();
+                        description.setText(Double.toString(barEntries.get(0)) + ", " + Double.toString(barEntries.get(1))
                                 + ", " + Double.toString(trans[0]) + ", " + Double.toString(util[0]));
-                        barchart.setDescription(description);
+                        barchart.setDescription(description);*/
                     } else {
                         Description description = new Description();
                         description.setText("No user data found");
                         barchart.setDescription(description);
                     }
+
                 }
             });
         } else {
             Toast.makeText(this, "Nobody is signed in!", Toast.LENGTH_SHORT).show();
         }
 
-        int f = (int)food[0];
+        /*int f = (int)food[0];
         float t = (float)trans[0];
-        float u = (float)util[0];
+        float u = (float)util[0];*/
 
-        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        /*ArrayList<BarEntry> barEntries = new ArrayList<>();
         barEntries.add(new BarEntry(1, f));
         barEntries.add(new BarEntry(2, t));
-        barEntries.add(new BarEntry(3, u));
+        barEntries.add(new BarEntry(3, u));*/
+        ArrayList<BarEntry> barEntries = new ArrayList<>();
+        barEntries.add(new BarEntry(0, (float)food));
+        barEntries.add(new BarEntry(1, (float)misc));
+        barEntries.add(new BarEntry(2, (float)trans));
+        barEntries.add(new BarEntry(3, (float)util));
 
         ArrayList<BarEntry> barEntries2 = new ArrayList<>();
         barEntries2.add(new BarEntry(1, 400));
