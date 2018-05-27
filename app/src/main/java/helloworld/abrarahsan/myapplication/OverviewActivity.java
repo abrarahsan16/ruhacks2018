@@ -27,6 +27,11 @@ public class OverviewActivity extends AppCompatActivity {
     TextView projectedTextView;
 
     @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.overview_menu, menu);
