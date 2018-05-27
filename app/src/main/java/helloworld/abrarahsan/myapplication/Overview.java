@@ -28,21 +28,21 @@ public class Overview extends AppCompatActivity {
         barchart = (BarChart) findViewById(R.id.barchartOverview);
         barchart.setDrawBarShadow(false);
         barchart.setDrawValueAboveBar(true);
-        barchart.setMaxVisibleValueCount(50);
+        barchart.setMaxVisibleValueCount(10);
         barchart.setPinchZoom(false);
         barchart.setDrawGridBackground(true);
         barchart.setGridBackgroundColor(Color.TRANSPARENT);
 
         ArrayList<BarEntry> barEntries = new ArrayList<>();
-        barEntries.add(new BarEntry(1, 500));
+        barEntries.add(new BarEntry(1, 900));
         barEntries.add(new BarEntry(2, 1000));
 
         actualTextView = findViewById(R.id.actualTextView);
         actualTextView.setText("Actual spending: $"
-                + String.format("%-1.2f", barEntries.get(0).getY()));
+                + String.format("%1.2f", barEntries.get(0).getY()));
         projectedTextView = findViewById(R.id.projectedTextView);
         projectedTextView.setText("Projected spending: $"
-                + String.format("%-1.2f", barEntries.get(1).getY()));
+                + String.format("%1.2f", barEntries.get(1).getY()));
 
         BarDataSet barDataSet = new BarDataSet(barEntries, "Actual Spending");
         barDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
@@ -52,7 +52,7 @@ public class Overview extends AppCompatActivity {
 
         barchart.setData(data);
         //barchart.invalidate();
-        //barchart.groupBars(1, 0.1f, 0.02f);
+        //barchart.groupBars(1, 0.1f, 2f);
         String[] tasks = new String[]{"Real", "Projected"};
         // String[] months =
         XAxis xAxis = barchart.getXAxis();
@@ -62,7 +62,7 @@ public class Overview extends AppCompatActivity {
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setGranularity(1);
         xAxis.setCenterAxisLabels(true);
-        xAxis.setAxisMinimum(1);
+        xAxis.setAxisMinimum(0);
     }
     public class myXAxisValueFormatter implements IAxisValueFormatter {
 
